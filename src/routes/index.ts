@@ -21,7 +21,14 @@ app.use(
 );
 app.use(cors());
 app.use(cookieParser());
-app.use(session({ secret: "sfgdlafsojq453523" }));
+app.use(
+	session({
+		resave: true,
+		saveUninitialized: true,
+		secret: "skfjfkfgjeoeiwrrwrewoirweoi4",
+		cookie: { secure: false },
+	})
+);
 
 app.use("/api/admin", admin);
 app.use("/api", client);
@@ -35,11 +42,24 @@ app.get("/*", function (_req: any, res: any) {
 
 // some temp work
 
-import { create } from "./dBcreation";
+import BlogPost from "../database/models/BlogPost";
+import BlogPostImage from "../database/models/BlogPostImage";
+import User from "../database/models/User";
+import PortfolioImage from "../database/models/PortfolioImage";
+import UserImage from "../database/models/UserImage";
+
+export const create = async () => {
+	await BlogPost.sync();
+
+	await BlogPostImage.sync();
+
+	await User.sync();
+	await PortfolioImage.sync();
+	await UserImage.sync();
+};
+
 create();
 
 // end of temp work
 
-app.listen(port, () =>
-	console.log(`Example app listening at http://localhost:${port}`)
-);
+app.listen();

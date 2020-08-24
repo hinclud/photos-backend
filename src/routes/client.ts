@@ -5,6 +5,9 @@ import * as User from "../controllers/user";
 
 const router = Router();
 
+router.get("/is_user", User.isUser);
+router.get("/is_admin", User.isAdmin);
+
 router.get("/blog/:id", Blog.getPost);
 router.get("/blog/", Blog.getAllPosts);
 router.get("/blog/:postId/image", Blog.getPostImages);

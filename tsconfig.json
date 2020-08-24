@@ -6,7 +6,8 @@
 		"noImplicitAny": false,
 		"moduleResolution": "node",
 		"sourceMap": true,
-		"outDir": "dist",
+		"outDir": "../live/server/",
+		// "outDir": "dist/",
 		"baseUrl": ".",
 		"paths": {
 			"*": ["node_modules/*"]

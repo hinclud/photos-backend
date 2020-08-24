@@ -1,10 +1,15 @@
 const { Sequelize, DataTypes } = require("sequelize");
 
 // "mysql://admin:admin@192.168.43.78:33060/chitchat"
-const host = process.env.HOST;
-const user = process.env.USER;
-const password = process.env.PASSWORD;
+let host = "192.168.43.78/anand";
+let user = "root";
+let password = "root";
 
-const sequelize = new Sequelize(`mysql://${password}:${user}@${host}`);
+host = "localhost/glntyckp_anand";
+user = "glntyckp_root";
+password = "merapassword";
+
+console.log(`mysql://${user}:${password}@${host}`);
+const sequelize = new Sequelize(`mysql://${user}:${password}@${host}`);
 
 export default sequelize;

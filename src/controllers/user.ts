@@ -10,14 +10,33 @@ export const login = async (req: Request, res: Response) => {
 		},
 	});
 	if (!user) {
-		res.status(403).send();
+		res.status(400).send("Wrong Username or Password");
+		return;
 	}
-	req.session.user = user;
-	res.json({ path: user.isAdmin ? "/admin" : "/user" });
+	req.session.user = {
+		username: user.dataValues.username,
+		isAdmin: user.dataValues.isAdmin,
+	};
+	console.log("saving to session ", req.session.user);
+	req.session.save((err) => {
+		if (!err) {
+			res.json({ path: user.isAdmin ? "/admin" : "/user" });
+		} else res.status(403).send(err);
+	});
 };
 
 export const logout = async (req: Request, res: Response) => {
 	req.session.user = null;
+};
+
+export const isUser = async (req: Request, res: Response) => {
+	if (req.session.user) res.json(true);
+	else res.json(false);
+};
+
+export const isAdmin = async (req: Request, res: Response) => {
+	if (req.session.user && req.session.user.isAdmin) res.json(true);
+	else res.json(false);
 };
 
 export const isLoggedIn = async (
@@ -25,6 +44,7 @@ export const isLoggedIn = async (
 	res: Response,
 	next: NextFunction
 ) => {
+	console.log("user : ", req.session.user);
 	// req.session.user = { username: "manuver" };
 	if (!req.session.user) {
 		res.status(403).send("access denied, login to continue");
